@@ -88,22 +88,56 @@ def operar_anios(anios: List[int]):
         opcion = input('Seleccione una operación (1-4): ')
         
         if opcion == '1':
-            #LLAMAR A LA FUNCIÓN DE CONTAR AÑOS PARES/IMPARES
-            print('Contar años pares/impares')
+            print('----------Operacion 1----------')
+            
+            Contar_años_par_impar(anios)
+            print('-------------------------------')
         
         elif opcion == '2':
-            #LLAMAR A LA FUNCIÓN QUE VERIFICA SI HAY GRUPO Z
-            print('Verificar si son "Grupo Z" (nacidos después del 2000)')
+            print('----------Operacion 2----------')
+            
+            verificar_grupoz(anios)
+            print('-------------------------------')
         
         elif opcion == '3':
+            print('----------Operacion 3----------')
             #LLAMAR A LA FUNCIÓN QUE IDENTIFICA AÑOS BISIESTOS
-            print('Años bisiestos')
+            
+            print('-------------------------------')
         
         elif opcion == '4':
             break
         
         else:
             print('Opción inválida. Intente nuevamente.')
+
+# FUNCION PARA CONTAR AÑOS PARES O IMPARES
+
+def Contar_años_par_impar(lista):
+    años_par = 0
+    años_impar = 0
+    for a in lista:
+        if a % 2 == 0:
+            años_par += 1
+        else:
+            años_impar += 1
+    print(f"{años_par} personas nacieron en años pares")
+    print(f"{años_impar} personas nacieron en años impares")
+
+        
+# FUNCION GRUPO Z (NACIMIENTO 2000+)
+def verificar_grupoz(lista):
+    años_1900 = 0
+    for a in lista:
+        if a < 2000:
+            años_1900 +=1
+    if años_1900 == 0:
+        print(f"Este es un grupo Z, todos nacieron despues del año 2000")
+    else:
+        print(f"Este no es un grupo Z, al menos uno nacio antes del 2000")
+
+
+    
 
 # --- FUNCIÓN PRINCIPAL ---
 def main():
