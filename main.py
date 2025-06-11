@@ -137,8 +137,8 @@ def operar_anios(anios: List[int]):
         
         elif opcion == '3':
             print('----------Operacion 3----------')
-            #LLAMAR A LA FUNCIÓN QUE IDENTIFICA AÑOS BISIESTOS
-            
+            for anio in anios:
+                es_especial(anio)
             print('-------------------------------')
         
         elif opcion == '4':
@@ -172,8 +172,15 @@ def verificar_grupoz(lista):
     else:
         print(f"Este no es un grupo Z, al menos uno nacio antes del 2000")
 
+# FUNCION PARA DECIR SI NACIO EN AÑO BISIESTO
+def es_bisiesto(anio):
+    return (anio % 4 == 0 and anio % 100 != 0) or (anio % 400 == 0)
 
-    
+# FUNCION NACIO EN AÑO ESPECIAL
+def es_especial(anio):
+    if (es_bisiesto(anio)):
+        print("Tenemos un año especial")
+
 
 # --- FUNCIÓN PRINCIPAL ---
 def main():
