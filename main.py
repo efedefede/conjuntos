@@ -82,18 +82,69 @@ def operar_dnis(dnis: Dict[str, List[int]], conjuntos: List[Set[int]]):
         
         elif opcion == '3':
             #LLAMAR A LA FUNCIÓN DE FRECUENCIA DE DÍGITOS
-            print('Frecuencia de dígitos')
+                frecuencia_digitos(dnis)
+                suma_digitos_dni(dnis)
             
         
         elif opcion == '4':
             #LLAMAR A LA FUNCIÓN DE DIVERSIDAD NUMÉRICA
-            print('Verificar diversidad numérica')
+            evaluar_condiciones(conjuntos)
         
         elif opcion == '5':
             break
         
         else:
             print('Opción inválida. Intente nuevamente.')
+
+# CONTEO DE FRECUENCIA DE CADA DIGITO #
+
+def frecuencia_digitos(dnis: Dict[str, List[int]]):
+    """Cuenta la frecuencia de cada dígito en todos los DNIs."""
+    frecuencia = {i: 0 for i in range(10)}
+    for lista_digitos in dnis.values():
+        for digito in lista_digitos:
+            frecuencia[digito] += 1
+
+    print('\nFrecuencia de dígitos en todos los DNIs:')
+    for digito, cantidad in frecuencia.items():
+        print(f'Dígito {digito}: {cantidad} veces')
+
+# SUMA TOTAL DE LOS DIGITOS DE CADA DNI #
+
+def suma_digitos_dni(dnis: Dict[str, List[int]]):
+    """Calcula la suma de los dígitos de cada DNI."""
+    print('\nSuma de dígitos por DNI:')
+    for clave, lista_digitos in dnis.items():
+        suma = sum(lista_digitos)
+        print(f'{clave}: suma = {suma}')
+
+# EVALUACIÓN DE CONDICIONES LÓGICAS # 
+
+def evaluar_condiciones(conjuntos: List[Set[int]]):
+    """Evalúa condiciones lógicas sobre los conjuntos de dígitos."""
+    if not conjuntos:
+        return
+    
+    # Comprobar si hay dígitos que aparecen en todos los DNIs
+    interseccion_total = conjuntos[0].copy()
+    for conjunto in conjuntos[1:]:
+        interseccion_total = interseccion_total.intersection(conjunto)
+    
+    if interseccion_total:
+        print(f'\nDígitos compartidos por todos los DNIs: {interseccion_total}')
+    else:
+        print('\nNo hay dígitos compartidos por todos los DNIs.')
+
+    # Verificar diversidad numérica alta
+    for i, conjunto in enumerate(conjuntos, 1):
+        if len(conjunto) > 6:
+            print(f'{i}° DNI tiene diversidad numérica alta ({len(conjunto)} dígitos únicos)')
+
+
+    # Condición 2: Diversidad numérica alta (> 6 dígitos únicos)
+    for i, conjunto in enumerate(conjuntos, 1):
+        if len(conjunto) > 6:
+            print(f"DNI_{i} tiene diversidad numérica alta (dígitos únicos: {len(conjunto)}/8)")
 
 # --- FUNCIONES PARA AÑOS ---
 def ingresar_anios() -> List[int]:
@@ -138,8 +189,8 @@ def operar_anios(anios: List[int]):
         
         elif opcion == '3':
             print('----------Operacion 3----------')
-            #LLAMAR A LA FUNCIÓN QUE IDENTIFICA AÑOS BISIESTOS
-            
+            for anio in anios:
+                es_especial(anio)
             print('-------------------------------')
         
         elif opcion == '4':
@@ -173,8 +224,15 @@ def verificar_grupoz(lista):
     else:
         print(f"Este no es un grupo Z, al menos uno nacio antes del 2000")
 
+# FUNCION PARA DECIR SI NACIO EN AÑO BISIESTO
+def es_bisiesto(anio):
+    return (anio % 4 == 0 and anio % 100 != 0) or (anio % 400 == 0)
 
-    
+# FUNCION NACIO EN AÑO ESPECIAL
+def es_especial(anio):
+    if (es_bisiesto(anio)):
+        print("Tenemos un año especial")
+
 
 # --- FUNCIÓN PRINCIPAL ---
 def main():
