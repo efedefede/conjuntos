@@ -17,9 +17,45 @@ def ingresar_dnis() -> Dict[str, List[int]]:
             print('¡DNI inválido! Debe tener 8 dígitos.')
     return dnis
 
+
+# --- OPERACIONES DE CONJUNTOS ---#
+
+def union(conjunto1:set,conjunto2:set) -> set:
+    """
+    Esta función recibe 2 conjuntos y devuelve la unión
+    de los mismos.
+    """
+    return conjunto1.union(conjunto2)
+
+
+def interseccion(conjunto1:set,conjunto2:set) -> set:
+    """
+    Esta función recibe 2 conjuntos y devuelve la intersección
+    de los mismos.
+    """
+    return conjunto1.intersection(conjunto2)
+
+
+def diferencia(conjunto1:set,conjunto2:set) -> set:
+    """
+    Esta función recibe 2 conjuntos y devuelve la diferencia del conjunto 1
+    menos el conjunto 2.
+    """
+    return conjunto1.difference(conjunto2)
+
+def diferencia_simetrica(conjunto1:set,conjunto2:set)-> set:
+    """
+    Esta función recibe 2 conjuntos y devuelve la diferencia
+    simétrica de los mismos.
+    """
+    return conjunto1.symmetric_difference(conjunto2)
+
 def generar_conjuntos(dnis: Dict[str, List[int]]) -> List[Set[int]]:
     """Convierte los DNIs a conjuntos de dígitos únicos."""
     return [set(dni) for dni in dnis.values()]
+
+
+# --- OPERACIONES DE DNI ---#
 
 def mostrar_operaciones_dnis():
     """Menú de operaciones disponibles para DNIs."""
@@ -176,5 +212,4 @@ def main():
 
 # PRUEBA:
 main()
-  
 
