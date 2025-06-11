@@ -1,7 +1,7 @@
 from typing import Dict, List, Set
 
 # --- FUNCIONES PARA DNIs ---
-def ingresar_dnis() -> Dict[str, List[int]]:
+def ingresar_dnis() -> Dict[str, Set[int]]:
     """Ingresa DNIs y los devuelve como diccionario de listas de dígitos."""
     dnis = {}
     contador = 1
@@ -11,7 +11,7 @@ def ingresar_dnis() -> Dict[str, List[int]]:
         if dni.lower() == 'fin':
             break
         if len(dni) == 8 and dni.isdigit():
-            dnis[f'DNI_{contador}'] = [int(d) for d in dni]
+            dnis[f'DNI_{contador}'] = {int(d) for d in dni}
             contador += 1
         else:
             print('¡DNI inválido! Debe tener 8 dígitos.')
@@ -70,6 +70,7 @@ def operar_dnis(dnis: Dict[str, List[int]], conjuntos: List[Set[int]]):
     """Ejecuta operaciones seleccionadas sobre DNIs."""
     while True:
         mostrar_operaciones_dnis()
+        print(dnis)
         opcion = input('Seleccione una operación (1-5): ')
         
         if opcion == '1':
