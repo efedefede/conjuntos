@@ -17,6 +17,14 @@ def ingresar_dnis() -> Dict[str, Set[int]]:
             print('¡DNI inválido! Debe tener 8 dígitos.')
     return dnis
 
+def mostrar_conjuntos_dni(dnis:Set):
+    """
+    Muestra de forma prolija los conjuntos de DNI
+    """
+    for clave,valor in dnis.items():
+        print(f"{clave}= {valor}")
+
+
 
 # --- OPERACIONES DE CONJUNTOS ---#
 
@@ -50,47 +58,62 @@ def diferencia_simetrica(conjunto1:set,conjunto2:set)-> set:
     """
     return conjunto1.symmetric_difference(conjunto2)
 
-def generar_conjuntos(dnis: Dict[str, List[int]]) -> List[Set[int]]:
-    """Convierte los DNIs a conjuntos de dígitos únicos."""
-    return [set(dni) for dni in dnis.values()]
-
 
 # --- OPERACIONES DE DNI ---#
 
 def mostrar_operaciones_dnis():
     """Menú de operaciones disponibles para DNIs."""
     print('\nOperaciones disponibles:')
-    print('1. Mostrar unión de todos los DNIs')
-    print('2. Mostrar intersección de dígitos comunes')
-    print('3. Calcular frecuencia de dígitos')
-    print('4. Verificar diversidad numérica')
-    print('5. Volver al menú principal')
+    print('1. Unión de 2 conjuntos de DNIs')
+    print('2. Intersección de 2 conjuntos de DNIs')
+    print('3. Diferencia de 2 conjuntos de DNIss')
+    print('4. Diferencia simétrica de 2 conjuntos de DNIs')
+    print('5. Calcular frecuencia de dígitos')
+    print('6. Verificar diversidad numérica')
+    print('7. Volver al menú principal')
 
-def operar_dnis(dnis: Dict[str, List[int]], conjuntos: List[Set[int]]):
+def operar_dnis(dnis: Dict[str, List[int]]):
     """Ejecuta operaciones seleccionadas sobre DNIs."""
     while True:
         mostrar_operaciones_dnis()
-        print(dnis)
-        opcion = input('Seleccione una operación (1-5): ')
+        mostrar_conjuntos_dni(dnis)
+        opcion = input('Seleccione una operación (1-7): ')
         
-        if opcion == '1':
-            #LLAMAR A LA FUNCIÓN DE UNION
-            print('union')
-        elif opcion == '2':
-            #LLAMAR A LA FUNCIÓN DE INTERSECCIÓN
-            print('intersección')
-        
-        elif opcion == '3':
+        if opcion in {'1', '2', '3', '4'}:
+            print("Elija 2 claves válidas del listado para realizar la operación:")
+            mostrar_conjuntos_dni(dnis)
+
+            clave1 = input("Ingrese el nombre del primer conjunto (ej: DNI_1): ").strip()
+            clave2 = input("Ingrese el nombre del segundo conjunto (ej: DNI_2): ").strip()
+
+            if clave1 in dnis and clave2 in dnis:
+                conjunto1 = set(dnis[clave1])
+                conjunto2 = set(dnis[clave2])
+                print("RESULTADO:")
+
+            if opcion == '1':
+                #LLAMAR A LA FUNCIÓN DE UNION
+                print(f"Union de {conjunto1} y {conjunto2} = {union(conjunto1,conjunto2)}")
+            elif opcion == '2':
+                #LLAMAR A LA FUNCIÓN DE INTERSECCIÓN
+                print(f"Intersección de {conjunto1} y {conjunto2} = {interseccion(conjunto1,conjunto2)}")
+
+            elif opcion == '3':
+                #LLAMAR A LA FUNCIÓN DE DIFERENCIA
+                print(f"Diferencia de {conjunto1} y {conjunto2} = {diferencia(conjunto1,conjunto2)}")
+
+            elif opcion == '4':
+                #LLAMAR A LA FUNCIÓN DE DIFERENCIA SIMETRICA
+                print(f"Diferencia simétrica de {conjunto1} y {conjunto2} = {diferencia_simetrica(conjunto1,conjunto2)}")
+        elif opcion == '5':
             #LLAMAR A LA FUNCIÓN DE FRECUENCIA DE DÍGITOS
                 frecuencia_digitos(dnis)
-                suma_digitos_dni(dnis)
-            
-        
-        elif opcion == '4':
+                suma_digitos_dni(dnis)           
+        elif opcion == '6':
             #LLAMAR A LA FUNCIÓN DE DIVERSIDAD NUMÉRICA
-            evaluar_condiciones(conjuntos)
-        
-        elif opcion == '5':
+            evaluar_condiciones(dnis)        
+
+        elif opcion == '7':
             break
         
         else:
@@ -120,14 +143,17 @@ def suma_digitos_dni(dnis: Dict[str, List[int]]):
 
 # EVALUACIÓN DE CONDICIONES LÓGICAS # 
 
-def evaluar_condiciones(conjuntos: List[Set[int]]):
+def evaluar_condiciones(conjuntos: Dict[str, Set[int]] ):
     """Evalúa condiciones lógicas sobre los conjuntos de dígitos."""
     if not conjuntos:
         return
-    
+    # Convertir los valores (los conjuntos) en una lista
+    conjuntos_lista = list(conjuntos.values())
+
+
     # Comprobar si hay dígitos que aparecen en todos los DNIs
-    interseccion_total = conjuntos[0].copy()
-    for conjunto in conjuntos[1:]:
+    interseccion_total = conjuntos_lista[0].copy()
+    for conjunto in conjuntos_lista[1:]:
         interseccion_total = interseccion_total.intersection(conjunto)
     
     if interseccion_total:
@@ -136,13 +162,13 @@ def evaluar_condiciones(conjuntos: List[Set[int]]):
         print('\nNo hay dígitos compartidos por todos los DNIs.')
 
     # Verificar diversidad numérica alta
-    for i, conjunto in enumerate(conjuntos, 1):
+    for i, (clave, conjunto) in enumerate(conjuntos.items(), 1):
         if len(conjunto) > 6:
-            print(f'{i}° DNI tiene diversidad numérica alta ({len(conjunto)} dígitos únicos)')
+            print(f'{clave} tiene diversidad numérica alta ({len(conjunto)} dígitos únicos)')
 
 
     # Condición 2: Diversidad numérica alta (> 6 dígitos únicos)
-    for i, conjunto in enumerate(conjuntos, 1):
+    for i, (clave, conjunto) in enumerate(conjuntos.items(), 1):
         if len(conjunto) > 6:
             print(f"DNI_{i} tiene diversidad numérica alta (dígitos únicos: {len(conjunto)}/8)")
 
@@ -252,8 +278,7 @@ def main():
             if not dnis:
                 print('No se ingresaron DNIs.')
                 continue
-            conjuntos = generar_conjuntos(dnis)
-            operar_dnis(dnis, conjuntos)
+            operar_dnis(dnis)
         
         elif opcion_principal == '2':
             anios = ingresar_anios()
