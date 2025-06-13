@@ -161,10 +161,6 @@ def evaluar_condiciones(conjuntos: Dict[str, Set[int]] ):
     else:
         print('\nNo hay dígitos compartidos por todos los DNIs.')
 
-    # Verificar diversidad numérica alta
-    for i, (clave, conjunto) in enumerate(conjuntos.items(), 1):
-        if len(conjunto) > 6:
-            print(f'{clave} tiene diversidad numérica alta ({len(conjunto)} dígitos únicos)')
 
 
     # Condición 2: Diversidad numérica alta (> 6 dígitos únicos)
